@@ -1,14 +1,14 @@
 import { Router } from "express";
 import {
-  createPostController,
-  postGetController,
+  createCountryController,
+  countryGetController,
 } from "../controllers/auth.js";
 import authenticateJWT from "../middleware/authMiddleware.js";
 
 const router = Router();
 
-router.post("/", authenticateJWT, createPostController);
+router.post("/countries", authenticateJWT, createCountryController);
 
-router.get("/", authenticateJWT, postGetController);
+router.get("/countries", countryGetController);
 
 export default router;

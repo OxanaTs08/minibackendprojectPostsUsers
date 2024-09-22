@@ -1,26 +1,25 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
+const tagSchema = new mongoose.Schema({
+  name: { type: String },
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
     },
   ],
-  likes: [
+  countries: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Like",
+      ref: "Country",
     },
   ],
-  comments: [
+  places: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
+      ref: "Place",
     },
   ],
 });
 
-export { userSchema };
+export { tagSchema };

@@ -11,14 +11,14 @@ const authenticateJWT = (req, res, next) => {
       const token = authorization.slice(7);
       jwt.verify(token, jwtSecret, (err, user) => {
         if (err) {
-          res.status(403).json({ message: "Invalid or expired token" });
+          return res.status(403).json({ message: "Invalid or expired token" });
         }
 
         req.user = user;
         next();
       });
     } else {
-      res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Unauthorized" });
     }
   } catch (error) {
     req.status(500).send(error);

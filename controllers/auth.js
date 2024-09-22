@@ -1,5 +1,7 @@
 import User from "../models/userModel.js";
 import Post from "../models/postModel.js";
+import Country from "../models/countryModel.js";
+import Tag from "../models/tagModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -14,13 +16,12 @@ export const registerController = async (req, res) => {
       .status(400)
       .json({ message: "Username and password are required" });
   }
-  const userExists = await User.findOne({ where: { username } });
-  if (userExists) {
-    res.status(400).send("User already exists");
-    return;
-  }
-
   try {
+    const userExists = await User.findOne({ where: { username } });
+    if (userExists) {
+      return;
+    }
+
     const hashRounds = 10;
     const hashedPassword = await bcrypt.hash(password, hashRounds);
 
@@ -28,9 +29,13 @@ export const registerController = async (req, res) => {
       username,
       password: hashedPassword,
     });
-    res.status(201).json({ message: "User created" });
+    res.status(201).json({ message: "User created", user });
   } catch (error) {
-    res.status(500).json({ message: "User not created" });
+    if (error.code === 11000) {
+      return res.status(400).json({ message: "User already exists" });
+    } else {
+      res.status(500).json(error);
+    }
   }
 };
 
@@ -99,5 +104,43 @@ export const createPostController = async (req, res) => {
     res.status(201).json({ message: "Post created", result });
   } catch (error) {
     res.status(500).json(error.message);
+  }
+};
+
+export const createCountryController = async (req, res) => {
+  const { name, picture } = req.body;
+  if (!name || !picture) {
+    return res.status(400).json({ message: "Data is required" });
+  }
+  try {
+    const country = await Country.create({
+      name,
+      picture,
+    });
+    res.status(201).json({ message: "country is created", country });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const countryGetController = async (req, res) => {
+  try {
+    console.log("Calling Country.find()");
+    const countries = await Country.find();
+    console.log("Countries found:", countries);
+    res.status(200).json({ countries });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json(error);
+  }
+};
+
+export const tagGetController = async (req, res) => {
+  try {
+    const tags = await Tag.find();
+    res.status(200).json({ tags });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json(error);
   }
 };
