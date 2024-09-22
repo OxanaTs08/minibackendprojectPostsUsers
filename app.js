@@ -5,6 +5,7 @@ import authRouter from "./routes/auth.js";
 import postsRouter from "./routes/posts.js";
 import countriesRouter from "./routes/countries.js";
 import tagsRouter from "./routes/tags.js";
+import placesRouter from "./routes/places.js";
 
 dotenv.config({ path: ".env" });
 const uri = process.env.MONGO_URI;
@@ -16,6 +17,7 @@ app.use("/auth", authRouter);
 app.use("/posts", postsRouter);
 app.use("/countries", countriesRouter);
 app.use("/tags", tagsRouter);
+app.use("/places", placesRouter);
 
 mongoose
   .connect(uri, {})

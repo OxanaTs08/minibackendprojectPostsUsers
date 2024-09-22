@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const placeSchema = new mongoose.Schema({
   title: { type: String },
-  author: { type: String },
   country: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Country",

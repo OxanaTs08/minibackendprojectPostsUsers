@@ -2,6 +2,7 @@ import User from "../models/userModel.js";
 import Post from "../models/postModel.js";
 import Country from "../models/countryModel.js";
 import Tag from "../models/tagModel.js";
+import Place from "../models/placeModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -156,6 +157,31 @@ export const createTagController = async (req, res) => {
     });
     res.status(201).json({ message: "tag is created", tag });
   } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const createPlaceController = async (req, res) => {
+  const { title } = req.body;
+  if (!title) {
+    return res.status(400).json({ message: "Data is required" });
+  }
+  try {
+    const place = await Place.create({
+      title,
+    });
+    res.status(201).json({ message: "place is created", place });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const placeGetController = async (req, res) => {
+  try {
+    const places = await Place.find();
+    res.status(200).json({ places });
+  } catch (error) {
+    console.error("Error:", error);
     res.status(500).json(error);
   }
 };
