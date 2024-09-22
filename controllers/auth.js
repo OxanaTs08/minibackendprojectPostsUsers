@@ -144,3 +144,18 @@ export const tagGetController = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const createTagController = async (req, res) => {
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ message: "Data is required" });
+  }
+  try {
+    const tag = await Tag.create({
+      name,
+    });
+    res.status(201).json({ message: "tag is created", tag });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};

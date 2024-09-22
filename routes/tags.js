@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { tagGetController } from "../controllers/auth.js";
-// import authenticateJWT from "../middleware/authMiddleware.js";
+import { tagGetController, createTagController } from "../controllers/auth.js";
+import authenticateJWT from "../middleware/authMiddleware.js";
 
 const router = Router();
 
-// router.post("/tags", authenticateJWT, createTagController);
+router.post("/", authenticateJWT, createTagController);
 
-router.get("/tags", tagGetController);
+router.get("/", tagGetController);
 
 export default router;

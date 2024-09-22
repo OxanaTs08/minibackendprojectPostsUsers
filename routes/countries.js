@@ -7,8 +7,8 @@ import authenticateJWT from "../middleware/authMiddleware.js";
 
 const router = Router();
 
-router.post("/countries", authenticateJWT, createCountryController);
+router.post("/", authenticateJWT, createCountryController);
 
-router.get("/countries", countryGetController);
+router.get("/", countryGetController);
 
 export default router;
